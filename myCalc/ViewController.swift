@@ -16,8 +16,10 @@ class ViewController: UIViewController {
     
     
     var firstNumber: Double = 0
-    var resultNumber: Double = 0
-
+    var secondNumber: Double = 0
+    var resultNumber: Int = 0
+    var signPressed: Bool = false
+    var operation: Int = 0
     
     
     
@@ -57,6 +59,7 @@ class ViewController: UIViewController {
         }
         
         let buttonClear = UIButton(type: .system)
+        buttonClear.tag = 17
         viewButtons.addSubview(buttonClear)
         buttonClear.layer.cornerRadius = 40
         buttonClear.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -70,6 +73,7 @@ class ViewController: UIViewController {
         buttonClear.addTarget(self, action: #selector(clearResult), for: .touchUpInside)
         
         let buttonInvers = UIButton(type: .system)
+        buttonInvers.tag = 10
         viewButtons.addSubview(buttonInvers)
         buttonInvers.layer.cornerRadius = 40
         buttonInvers.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -81,8 +85,10 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
+        buttonInvers.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
         let buttonPersent = UIButton(type: .system)
+        buttonPersent.tag = 11
         viewButtons.addSubview(buttonPersent)
         buttonPersent.layer.cornerRadius = 40
         buttonPersent.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -94,8 +100,10 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
+        buttonPersent.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
         let buttonDelenie = UIButton(type: .system)
+        buttonDelenie.tag = 12
         viewButtons.addSubview(buttonDelenie)
         buttonDelenie.layer.cornerRadius = 40
         buttonDelenie.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -107,6 +115,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
+        buttonDelenie.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
         let button7 = UIButton(type: .system)
         viewButtons.addSubview(button7)
@@ -157,6 +166,7 @@ class ViewController: UIViewController {
         button9.addTarget(self, action: #selector(pressNumber), for: .touchUpInside)
         
         let buttonYmnoj = UIButton(type: .system)
+        buttonYmnoj.tag = 13
         viewButtons.addSubview(buttonYmnoj)
         buttonYmnoj.layer.cornerRadius = 40
         buttonYmnoj.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -169,7 +179,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
-        
+        buttonYmnoj.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
         let button4 = UIButton(type: .system)
         viewButtons.addSubview(button4)
@@ -219,6 +229,7 @@ class ViewController: UIViewController {
         button6.addTarget(self, action: #selector(pressNumber), for: .touchUpInside)
         
         let buttonMinus = UIButton(type: .system)
+        buttonMinus.tag = 14
         viewButtons.addSubview(buttonMinus)
         buttonMinus.layer.cornerRadius = 40
         buttonMinus.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -231,7 +242,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
-//        buttonMinus.addTarget(self, action: #selector(), for: .touchUpInside)
+        buttonMinus.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
         
         let button1 = UIButton(type: .system)
@@ -282,6 +293,7 @@ class ViewController: UIViewController {
         button3.addTarget(self, action: #selector(pressNumber), for: .touchUpInside)
         
         let buttonPlus = UIButton(type: .system)
+        buttonPlus.tag = 15
         viewButtons.addSubview(buttonPlus)
         buttonPlus.layer.cornerRadius = 40
         buttonPlus.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
@@ -294,6 +306,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
+        buttonPlus.addTarget(self, action: #selector(operations), for: .touchUpInside)
 
 
         let button0 = UIButton(type: .system)
@@ -312,10 +325,11 @@ class ViewController: UIViewController {
         button0.addTarget(self, action: #selector(pressNumber), for: .touchUpInside)
         
         let buttonTochka = UIButton(type: .system)
+        buttonTochka.tag = 17
         viewButtons.addSubview(buttonTochka)
         buttonTochka.layer.cornerRadius = 40
         buttonTochka.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
-        buttonTochka.setTitle(",", for: .normal)
+        buttonTochka.setTitle(".", for: .normal)
         buttonTochka.backgroundColor = #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3647058824, alpha: 1)
         buttonTochka.setTitleColor(.white, for: .normal)
         buttonTochka.snp.makeConstraints { make in
@@ -324,9 +338,11 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
+        buttonTochka.addTarget(self, action: #selector(separatedPoint), for: .touchUpInside)
         
         let buttonRovno = UIButton(type: .system)
         viewButtons.addSubview(buttonRovno)
+        buttonRovno.tag = 16
         buttonRovno.layer.cornerRadius = 40
         buttonRovno.titleLabel?.font = UIFont.boldSystemFont(ofSize: 35)
         buttonRovno.setTitle("=", for: .normal)
@@ -338,7 +354,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
-        buttonRovno.addTarget(self, action: #selector(clearResult), for: .touchUpInside)
+        buttonRovno.addTarget(self, action: #selector(operations), for: .touchUpInside)
         
 
          
@@ -346,15 +362,97 @@ class ViewController: UIViewController {
     
     
     @objc func clearResult() {
-        resultLabel.text = "0"
+        resultLabel.text = ""
         firstNumber = 0
+        secondNumber = 0
+        operation = 0
         
     }
     
-    @objc func pressNumber( sender: UIButton){
-        resultLabel.text = resultLabel.text! + String(sender.tag)
-        firstNumber = Double(resultLabel.text!)!
+    @objc func separatedPoint( sender: UIButton){
+        resultLabel.text = resultLabel.text! + "."
     }
     
+    @objc func pressNumber( sender: UIButton){
+        if signPressed == true {
+            resultLabel.text = String(sender.tag)
+            signPressed = false
+        } else {
+            resultLabel.text = resultLabel.text! + String(sender.tag)
+        }
+        
+        firstNumber = Double (resultLabel.text!)!
+    }
+    
+    @objc func operations( sender: UIButton) {
+        if resultLabel.text != "" && sender.tag != 16 && sender.tag != 17{
+            
+            secondNumber = Double (resultLabel.text!)!
+            if sender.tag == 10 { // Замена знака
+                resultLabel.text = String(-secondNumber)
+            }else if sender.tag == 11 { // Процент
+    
+            }else if sender.tag == 12{ // Деление
+        
+            }else if sender.tag == 13{ // умножение
+                
+            }else if sender.tag == 14{ // Вычитание
+            
+            }else if sender.tag == 15 { // Сложение
+        }
+            operation = sender.tag
+            signPressed = true
+    }
+        else if sender.tag == 16 {
+            if operation == 10 { // Замена знака
+                
+            }else if operation == 11 { // Процент
+      
+                
+            }else if operation == 12{ // Деление
+                
+                let res = secondNumber / firstNumber
+                let resArray = res.description.components(separatedBy: ".")
+                if resArray[1] == "0" {
+                    resultNumber = Int(res)
+                    resultLabel.text = String(resultNumber)
+                } else {
+                    resultLabel.text = String(secondNumber / firstNumber)
+                }
+                
+            }else if operation == 13{ // умножение
+                
+                let res = secondNumber * firstNumber
+                let resArray = res.description.components(separatedBy: ".")
+                if resArray[1] == "0" {
+                    resultNumber = Int(res)
+                    resultLabel.text = String(resultNumber)
+                } else {
+                    resultLabel.text = String(secondNumber * firstNumber)
+                }
+                
+            }else if operation == 14{ // Вычитание
+                
+                let res = secondNumber - firstNumber
+                let resArray = res.description.components(separatedBy: ".")
+                if resArray[1] == "0" {
+                    resultNumber = Int(res)
+                    resultLabel.text = String(resultNumber)
+                } else {
+                    resultLabel.text = String(secondNumber - firstNumber)
+                }
+                
+            }else if operation == 15 { // Сложение
+                let res = secondNumber + firstNumber
+                let resArray = res.description.components(separatedBy: ".")
+                if resArray[1] == "0" {
+                    resultNumber = Int(res)
+                    resultLabel.text = String(resultNumber)
+                } else {
+                    resultLabel.text = String(secondNumber + firstNumber)
+                }
+         
+            }
+        }
 }
-
+}
