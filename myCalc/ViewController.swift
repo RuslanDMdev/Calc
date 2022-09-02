@@ -369,17 +369,11 @@ class ViewController: UIViewController {
         
     }
     
-//    if currentNumber.contains(".") {
-//        return
-//    } else {
-//        currentNumber += "."
-//        updateDisplay(text: currentNumber)
-    
     
     @objc func percent(){
-//        
-//        resultLabel.text = Double(resultLabel.text)! / 100)
-//        resultNumber = resultLabel.text
+        
+        secondNumber = secondNumber / 100
+        resultLabel.text = String(secondNumber)
     }
     
     @objc func separatedPoint( sender: UIButton){
