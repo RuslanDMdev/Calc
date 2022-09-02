@@ -100,7 +100,7 @@ class ViewController: UIViewController {
             make.width.equalTo(buttonSize)
             make.height.equalTo(buttonSize)
         }
-        buttonPersent.addTarget(self, action: #selector(operations), for: .touchUpInside)
+        buttonPersent.addTarget(self, action: #selector(percent), for: .touchUpInside)
         
         let buttonDelenie = UIButton(type: .system)
         buttonDelenie.tag = 12
@@ -369,8 +369,26 @@ class ViewController: UIViewController {
         
     }
     
+//    if currentNumber.contains(".") {
+//        return
+//    } else {
+//        currentNumber += "."
+//        updateDisplay(text: currentNumber)
+    
+    
+    @objc func percent(){
+//        
+//        resultLabel.text = Double(resultLabel.text)! / 100)
+//        resultNumber = resultLabel.text
+    }
+    
     @objc func separatedPoint( sender: UIButton){
-        resultLabel.text = resultLabel.text! + "."
+        
+        if resultLabel.text?.contains(".") == true {
+            return
+        } else {
+            resultLabel.text = resultLabel.text! + "."
+        }
     }
     
     @objc func pressNumber( sender: UIButton){
